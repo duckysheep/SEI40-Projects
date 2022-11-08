@@ -18,23 +18,23 @@ const gridArray = [
   ],
   [
     { position: "20", colour: "" },
-    { position: "21", colour: "" },
-    { position: "22", colour: "" },
-    { position: "23", colour: "" },
+    { position: "21", colour: "brown" },
+    { position: "22", colour: "brown" },
+    { position: "23", colour: "brown" },
     { position: "24", colour: "" },
   ],
   [
     { position: "30", colour: "" },
     { position: "31", colour: "" },
     { position: "32", colour: "" },
-    { position: "33", colour: "" },
+    { position: "33", colour: "brown" },
     { position: "34", colour: "" },
   ],
   [
     { position: "40", colour: "" },
     { position: "41", colour: "" },
     { position: "42", colour: "" },
-    { position: "43", colour: "" },
+    { position: "43", colour: "brown" },
     { position: "44", colour: "" },
   ],
 ];
@@ -42,6 +42,9 @@ const gridArray = [
 let x = 0,
   y = 0,
   timerStart = false;
+
+$(".help").hide();
+$(".win").hide();
 
 $(document).keydown(function (event) {
   var keyCode = event.keyCode || event.which;
@@ -60,7 +63,6 @@ $(document).keydown(function (event) {
 
     case arrow.right:
       // console.log("right press");
-      y++;
       rightMovement();
       break;
 
@@ -69,9 +71,11 @@ $(document).keydown(function (event) {
       downMovement();
       break;
   }
+
   // console.log(gridArray);
   if (!timerStart) {
-    countdown(10);
+    if (keyCode === 37 || keyCode === 38 || keyCode === 39 || keyCode === 40)
+      countdown(10);
     timerStart = true;
   }
 
@@ -80,23 +84,31 @@ $(document).keydown(function (event) {
 
 const rightMovement = () => {
   if (y < gridArray[x].length - 1) {
+    y++;
     if (
-      $(".box:contains(" + gridArray[x][y].position + ")").css(
-        "background-color"
-      ) != "rgb(255,255,255)"
+      $(".box:contains(" + gridArray[x][y].position + ")").attr("id") != "empty"
     ) {
-      $(".box:contains(" + gridArray[x][y].position + ")").css(
-        "background-color",
-        "aquamarine"
-      );
-      gridArray[x][y].colour = "aquamarine";
+      if (
+        $(".box:contains(" + gridArray[x][y].position + ")").css(
+          "background-color"
+        ) != "rgb(255,255,255)"
+      ) {
+        $(".box:contains(" + gridArray[x][y].position + ")").css(
+          "background-color",
+          "aquamarine"
+        );
+        gridArray[x][y].colour = "aquamarine";
+      } else if ((y = gridArray[x].length)) {
+        $(".box:contains(" + gridArray[x][y].position + ")").css(
+          "background-color",
+          "aquamarine"
+        );
+        gridArray[x][y].colour = "aquamarine";
+      }
+    } else {
+      y--;
+      // gridArray[x][y].colour = "brown";
     }
-  } else if ((y = gridArray[x].length - 1)) {
-    $(".box:contains(" + gridArray[x][y].position + ")").css(
-      "background-color",
-      "aquamarine"
-    );
-    gridArray[x][y].colour = "aquamarine";
   }
   console.log("X", x, "Y", y);
 };
@@ -105,22 +117,29 @@ const leftMovement = () => {
   if (y > 0) {
     y--;
     if (
-      $(".box:contains(" + gridArray[x][y].position + ")").css(
-        "background-color"
-      ) != "rgb(255,255,255)"
+      $(".box:contains(" + gridArray[x][y].position + ")").attr("id") != "empty"
     ) {
-      $(".box:contains(" + gridArray[x][y].position + ")").css(
-        "background-color",
-        "aquamarine"
-      );
-      gridArray[x][y].colour = "aquamarine";
+      if (
+        $(".box:contains(" + gridArray[x][y].position + ")").css(
+          "background-color"
+        ) != "rgb(255,255,255)"
+      ) {
+        $(".box:contains(" + gridArray[x][y].position + ")").css(
+          "background-color",
+          "aquamarine"
+        );
+        gridArray[x][y].colour = "aquamarine";
+      } else if ((y = 0)) {
+        $(".box:contains(" + gridArray[x][y].position + ")").css(
+          "background-color",
+          "aquamarine"
+        );
+        gridArray[x][y].colour = "aquamarine";
+      }
+    } else {
+      y++;
+      // gridArray[x][y].colour = "brown";
     }
-  } else if ((y = 0)) {
-    $(".box:contains(" + gridArray[x][y].position + ")").css(
-      "background-color",
-      "aquamarine"
-    );
-    gridArray[x][y].colour = "aquamarine";
   }
   console.log("X", x, "Y", y);
 };
@@ -129,22 +148,29 @@ const upMovement = () => {
   if (x > 0) {
     x--;
     if (
-      $(".box:contains(" + gridArray[x][y].position + ")").css(
-        "background-color"
-      ) != "rgb(255,255,255)"
+      $(".box:contains(" + gridArray[x][y].position + ")").attr("id") != "empty"
     ) {
-      $(".box:contains(" + gridArray[x][y].position + ")").css(
-        "background-color",
-        "aquamarine"
-      );
-      gridArray[x][y].colour = "aquamarine";
+      if (
+        $(".box:contains(" + gridArray[x][y].position + ")").css(
+          "background-color"
+        ) != "rgb(255,255,255)"
+      ) {
+        $(".box:contains(" + gridArray[x][y].position + ")").css(
+          "background-color",
+          "aquamarine"
+        );
+        gridArray[x][y].colour = "aquamarine";
+      } else if ((x = 0)) {
+        $(".box:contains(" + gridArray[x][y].position + ")").css(
+          "background-color",
+          "aquamarine"
+        );
+        gridArray[x][y].colour = "aquamarine";
+      }
+    } else {
+      x++;
+      // gridArray[x][y].colour = "brown";
     }
-  } else if ((x = 0)) {
-    $(".box:contains(" + gridArray[x][y].position + ")").css(
-      "background-color",
-      "aquamarine"
-    );
-    gridArray[x][y].colour = "aquamarine";
   }
   console.log("X", x, "Y", y);
 };
@@ -153,22 +179,29 @@ const downMovement = () => {
   if (x < gridArray.length - 1) {
     x++;
     if (
-      $(".box:contains(" + gridArray[x][y].position + ")").css(
-        "background-color"
-      ) != "rgb(255,255,255)"
+      $(".box:contains(" + gridArray[x][y].position + ")").attr("id") != "empty"
     ) {
-      $(".box:contains(" + gridArray[x][y].position + ")").css(
-        "background-color",
-        "aquamarine"
-      );
-      gridArray[x][y].colour = "aquamarine";
+      if (
+        $(".box:contains(" + gridArray[x][y].position + ")").css(
+          "background-color"
+        ) != "rgb(255,255,255)"
+      ) {
+        $(".box:contains(" + gridArray[x][y].position + ")").css(
+          "background-color",
+          "aquamarine"
+        );
+        gridArray[x][y].colour = "aquamarine";
+      } else if ((x = gridArray.length)) {
+        $(".box:contains(" + gridArray[x][y].position + ")").css(
+          "background-color",
+          "aquamarine"
+        );
+        gridArray[x][y].colour = "aquamarine";
+      }
+    } else {
+      x--;
+      // gridArray[x][y].colour = "brown";
     }
-  } else if ((x = gridArray.length - 1)) {
-    $(".box:contains(" + gridArray[x][y].position + ")").css(
-      "background-color",
-      "aquamarine"
-    );
-    gridArray[x][y].colour = "aquamarine";
   }
   console.log("X", x, "Y", y);
 };
@@ -180,12 +213,15 @@ const winCheck = () => {
       gridArrCheck.push(j.colour);
     }
   }
-  // console.log(gridArrCheck);
+  console.log(gridArrCheck);
   if (gridArrCheck.indexOf("") >= 0) {
     console.log("incomplete");
   } else {
     let remainingTime = document.getElementById("timer").innerHTML;
-    console.log(`Score: ${remainingTime / 10}`);
+    $(".score").text(`Score: ${remainingTime / 10}`);
+    $(".grid").hide();
+    $("#timer").hide();
+    $(".win").show();
   }
 };
 
@@ -204,12 +240,17 @@ const countdown = (secs) => {
   }, THROTTLE_AMOUNT);
 };
 
-const $btn = $("#btn");
-
+const $resetBtn = $("#resetBtn");
 const reset = () => {
-  (x = 0), (y = 0);
-  $(".box").css("background-color", "white");
-  timerStart = false;
+  location.reload();
+  // (x = 0), (y = 0);
+  // $(".box").css("background-color", "white");
+  // timerStart = false;
 };
+$resetBtn.on("click", reset);
 
-$btn.on("click", reset);
+const $helpBtn = $("#helpBtn");
+const help = () => {
+  $(".help").toggle();
+};
+$helpBtn.on("click", help);
