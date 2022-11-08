@@ -18,23 +18,23 @@ const gridArray = [
   ],
   [
     { position: "20", colour: "" },
-    { position: "21", colour: "brown" },
+    { position: "21", colour: "" },
     { position: "22", colour: "brown" },
-    { position: "23", colour: "brown" },
+    { position: "23", colour: "" },
     { position: "24", colour: "" },
   ],
   [
     { position: "30", colour: "" },
     { position: "31", colour: "" },
     { position: "32", colour: "" },
-    { position: "33", colour: "brown" },
+    { position: "33", colour: "" },
     { position: "34", colour: "" },
   ],
   [
     { position: "40", colour: "" },
     { position: "41", colour: "" },
     { position: "42", colour: "" },
-    { position: "43", colour: "brown" },
+    { position: "43", colour: "" },
     { position: "44", colour: "" },
   ],
 ];
@@ -83,6 +83,7 @@ $(document).keydown(function (event) {
   winCheck();
 });
 
+//try adding classes for css changes
 const rightMovement = () => {
   if (y < gridArray[x].length - 1) {
     y++;
@@ -110,14 +111,25 @@ const rightMovement = () => {
       y--;
       // gridArray[x][y].colour = "brown";
     }
-    $(".box:contains(" + gridArray[x][y - 1].position + ")").css(
-      "background-color",
-      "aquamarine"
-    );
-    $(".box:contains(" + gridArray[x][y].position + ")").css(
-      "background-color",
-      "purple"
-    );
+    if (gridArray[x][y - 1].colour != "") {
+      $(".box:contains(" + gridArray[x][y].position + ")").css(
+        "background-color",
+        "purple"
+      );
+      $(".box:contains(" + gridArray[x][y - 1].position + ")").css(
+        "background-color",
+        "aquamarine"
+      );
+    } else {
+      $(".box:contains(" + gridArray[x][y].position + ")").css(
+        "background-color",
+        "purple"
+      );
+      $(".box:contains(" + gridArray[x][y - 1].position + ")").css(
+        "background-color",
+        "white"
+      );
+    }
   }
 
   console.log("X", x, "Y", y);
@@ -158,6 +170,25 @@ const leftMovement = () => {
       "background-color",
       "purple"
     );
+    if (gridArray[x][y + 1].colour != "") {
+      $(".box:contains(" + gridArray[x][y].position + ")").css(
+        "background-color",
+        "purple"
+      );
+      $(".box:contains(" + gridArray[x][y + 1].position + ")").css(
+        "background-color",
+        "aquamarine"
+      );
+    } else {
+      $(".box:contains(" + gridArray[x][y].position + ")").css(
+        "background-color",
+        "purple"
+      );
+      $(".box:contains(" + gridArray[x][y + 1].position + ")").css(
+        "background-color",
+        "white"
+      );
+    }
   }
   console.log("X", x, "Y", y);
 };
@@ -197,6 +228,25 @@ const upMovement = () => {
       "background-color",
       "purple"
     );
+    if (gridArray[x + 1][y].colour != "") {
+      $(".box:contains(" + gridArray[x][y].position + ")").css(
+        "background-color",
+        "purple"
+      );
+      $(".box:contains(" + gridArray[x + 1][y].position + ")").css(
+        "background-color",
+        "aquamarine"
+      );
+    } else {
+      $(".box:contains(" + gridArray[x][y].position + ")").css(
+        "background-color",
+        "purple"
+      );
+      $(".box:contains(" + gridArray[x + 1][y].position + ")").css(
+        "background-color",
+        "white"
+      );
+    }
   }
   console.log("X", x, "Y", y);
 };
@@ -236,6 +286,25 @@ const downMovement = () => {
       "background-color",
       "purple"
     );
+    if (gridArray[x - 1][y].colour != "") {
+      $(".box:contains(" + gridArray[x][y].position + ")").css(
+        "background-color",
+        "purple"
+      );
+      $(".box:contains(" + gridArray[x - 1][y].position + ")").css(
+        "background-color",
+        "aquamarine"
+      );
+    } else {
+      $(".box:contains(" + gridArray[x][y].position + ")").css(
+        "background-color",
+        "purple"
+      );
+      $(".box:contains(" + gridArray[x - 1][y].position + ")").css(
+        "background-color",
+        "white"
+      );
+    }
   }
   console.log("X", x, "Y", y);
 };

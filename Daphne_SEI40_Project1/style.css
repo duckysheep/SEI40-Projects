@@ -125,6 +125,13 @@ body {
   color: rgba(0, 0, 0, 0);
 }
 
+.player {
+  background-color: purple;
+}
+.passed {
+  background-color: aquamarine;
+}
+
 #empty {
   border: rgb(0, 0, 0) solid;
   /* height: 50px;
