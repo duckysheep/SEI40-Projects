@@ -92,18 +92,27 @@ button:focus-visible {
 
 body {
   margin: 0 auto;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
+  /* display: flex; */
+  /* flex-wrap: wrap; */
+  /* align-items: center;
+  justify-content: center; */
   /* margin-top: 100px; */
 }
 
 .grid {
+  /* position: absolute; */
   display: grid;
   grid-template-rows: 50px 50px 50px 50px 50px;
   grid-template-columns: 50px 50px 50px 50px 50px;
 }
+
+/* .overlay {
+  display: grid;
+  position: absolute;
+  grid-template-rows: 50px 50px 50px 50px 50px;
+  grid-template-columns: 50px 50px 50px 50px 50px;
+  z-index: 5;
+} */
 
 .box {
   border: rgb(0, 0, 0) solid;
@@ -121,6 +130,16 @@ body {
   /* height: 50px;
   width: 50px; */
   background-color: brown;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(0, 0, 0, 0);
+}
+#start {
+  border: rgb(0, 0, 0) solid;
+  /* height: 50px;
+  width: 50px; */
+  background-color: purple;
   display: flex;
   align-items: center;
   justify-content: center;

@@ -3,7 +3,7 @@ import "./style.css";
 
 const gridArray = [
   [
-    { position: "00", colour: "" },
+    { position: "00", colour: "aquamarine" },
     { position: "01", colour: "" },
     { position: "02", colour: "" },
     { position: "03", colour: "" },
@@ -41,7 +41,8 @@ const gridArray = [
 
 let x = 0,
   y = 0,
-  timerStart = false;
+  timerStart = false,
+  $prevBoxText = null;
 
 $(".help").hide();
 $(".win").hide();
@@ -109,7 +110,16 @@ const rightMovement = () => {
       y--;
       // gridArray[x][y].colour = "brown";
     }
+    $(".box:contains(" + gridArray[x][y - 1].position + ")").css(
+      "background-color",
+      "aquamarine"
+    );
+    $(".box:contains(" + gridArray[x][y].position + ")").css(
+      "background-color",
+      "purple"
+    );
   }
+
   console.log("X", x, "Y", y);
 };
 
@@ -140,6 +150,14 @@ const leftMovement = () => {
       y++;
       // gridArray[x][y].colour = "brown";
     }
+    $(".box:contains(" + gridArray[x][y + 1].position + ")").css(
+      "background-color",
+      "aquamarine"
+    );
+    $(".box:contains(" + gridArray[x][y].position + ")").css(
+      "background-color",
+      "purple"
+    );
   }
   console.log("X", x, "Y", y);
 };
@@ -171,6 +189,14 @@ const upMovement = () => {
       x++;
       // gridArray[x][y].colour = "brown";
     }
+    $(".box:contains(" + gridArray[x + 1][y].position + ")").css(
+      "background-color",
+      "aquamarine"
+    );
+    $(".box:contains(" + gridArray[x][y].position + ")").css(
+      "background-color",
+      "purple"
+    );
   }
   console.log("X", x, "Y", y);
 };
@@ -202,6 +228,14 @@ const downMovement = () => {
       x--;
       // gridArray[x][y].colour = "brown";
     }
+    $(".box:contains(" + gridArray[x - 1][y].position + ")").css(
+      "background-color",
+      "aquamarine"
+    );
+    $(".box:contains(" + gridArray[x][y].position + ")").css(
+      "background-color",
+      "purple"
+    );
   }
   console.log("X", x, "Y", y);
 };
@@ -213,7 +247,7 @@ const winCheck = () => {
       gridArrCheck.push(j.colour);
     }
   }
-  console.log(gridArrCheck);
+  // console.log(gridArrCheck);
   if (gridArrCheck.indexOf("") >= 0) {
     console.log("incomplete");
   } else {
