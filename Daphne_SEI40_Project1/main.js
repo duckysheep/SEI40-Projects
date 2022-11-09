@@ -3,39 +3,39 @@ import "./style.css";
 
 const gridArray = [
   [
-    { position: "00", colour: "aquamarine" },
-    { position: "01", colour: "" },
-    { position: "02", colour: "" },
-    { position: "03", colour: "" },
-    { position: "04", colour: "" },
+    { position: "00" },
+    { position: "01" },
+    { position: "02" },
+    { position: "03" },
+    { position: "04" },
   ],
   [
-    { position: "10", colour: "" },
-    { position: "11", colour: "" },
-    { position: "12", colour: "" },
-    { position: "13", colour: "" },
-    { position: "14", colour: "" },
+    { position: "10" },
+    { position: "11" },
+    { position: "12" },
+    { position: "13" },
+    { position: "14" },
   ],
   [
-    { position: "20", colour: "" },
-    { position: "21", colour: "" },
-    { position: "22", colour: "brown" },
-    { position: "23", colour: "" },
-    { position: "24", colour: "" },
+    { position: "20" },
+    { position: "21" },
+    { position: "22" },
+    { position: "23" },
+    { position: "24" },
   ],
   [
-    { position: "30", colour: "" },
-    { position: "31", colour: "" },
-    { position: "32", colour: "" },
-    { position: "33", colour: "" },
-    { position: "34", colour: "" },
+    { position: "30" },
+    { position: "31" },
+    { position: "32" },
+    { position: "33" },
+    { position: "34" },
   ],
   [
-    { position: "40", colour: "" },
-    { position: "41", colour: "" },
-    { position: "42", colour: "" },
-    { position: "43", colour: "" },
-    { position: "44", colour: "" },
+    { position: "40" },
+    { position: "41" },
+    { position: "42" },
+    { position: "43" },
+    { position: "44" },
   ],
 ];
 
@@ -45,14 +45,15 @@ let x = 0,
 
 const $jumpSound = new Audio("/jump.ogg");
 const $musicSound = new Audio("/My-Fat-Cat.mp3");
-$jumpSound.volume = 0.3;
-$musicSound.volume = 0.1;
+$jumpSound.volume = 1;
+$musicSound.volume = 1;
 $musicSound.loop = true;
+$musicSound.play();
 
 $(".help").hide();
 $(".win").hide();
 $(".sound").hide();
-$musicSound.play();
+$(".box:contains(" + gridArray[x][y].position + ")").addClass("player");
 
 $(document).keydown(function (event) {
   var keyCode = event.keyCode || event.which;
@@ -109,48 +110,24 @@ const rightMovement = () => {
     if (
       $(".box:contains(" + gridArray[x][y].position + ")").attr("id") != "empty"
     ) {
-      if (
-        $(".box:contains(" + gridArray[x][y].position + ")").css(
-          "background-color"
-        ) != "rgb(255,255,255)"
-      ) {
-        $(".box:contains(" + gridArray[x][y].position + ")").css(
-          "background-color",
-          "aquamarine"
-        );
-        gridArray[x][y].colour = "aquamarine";
-      } else if ((y = gridArray[x].length)) {
-        $(".box:contains(" + gridArray[x][y].position + ")").css(
-          "background-color",
-          "aquamarine"
-        );
-        gridArray[x][y].colour = "aquamarine";
-      }
+      $(".box:contains(" + gridArray[x][y].position + ")")
+        .addClass("player")
+        .removeClass("passed");
+      $(".box:contains(" + gridArray[x][y - 1].position + ")")
+        .removeClass("player")
+        .addClass("passed");
+      // gridArray[x][y].colour = "aquamarine";
     } else {
       y--;
-      // gridArray[x][y].colour = "brown";
+      $(".box:contains(" + gridArray[x][y].position + ")")
+        .addClass("player")
+        .removeClass("passed");
     }
-    if (gridArray[x][y - 1].colour != "") {
-      $(".box:contains(" + gridArray[x][y].position + ")").css(
-        "background-color",
-        "purple"
-      );
-      $(".box:contains(" + gridArray[x][y - 1].position + ")").css(
-        "background-color",
-        "aquamarine"
-      );
-    } else {
-      $(".box:contains(" + gridArray[x][y].position + ")").css(
-        "background-color",
-        "purple"
-      );
-      $(".box:contains(" + gridArray[x][y - 1].position + ")").css(
-        "background-color",
-        "white"
-      );
-    }
+  } else if ((y = gridArray[x].length - 1)) {
+    $(".box:contains(" + gridArray[x][y].position + ")")
+      .addClass("player")
+      .removeClass("passed");
   }
-
   console.log("X", x, "Y", y);
 };
 
@@ -160,55 +137,26 @@ const leftMovement = () => {
     if (
       $(".box:contains(" + gridArray[x][y].position + ")").attr("id") != "empty"
     ) {
-      if (
-        $(".box:contains(" + gridArray[x][y].position + ")").css(
-          "background-color"
-        ) != "rgb(255,255,255)"
-      ) {
-        $(".box:contains(" + gridArray[x][y].position + ")").css(
-          "background-color",
-          "aquamarine"
-        );
-        gridArray[x][y].colour = "aquamarine";
-      } else if ((y = 0)) {
-        $(".box:contains(" + gridArray[x][y].position + ")").css(
-          "background-color",
-          "aquamarine"
-        );
-        gridArray[x][y].colour = "aquamarine";
-      }
+      $(".box:contains(" + gridArray[x][y].position + ")")
+        .addClass("player")
+        .removeClass("passed");
+      $(".box:contains(" + gridArray[x][y + 1].position + ")")
+        .removeClass("player")
+        .addClass("passed");
+      // gridArray[x][y].colour = "aquamarine";
     } else {
       y++;
-      // gridArray[x][y].colour = "brown";
+      $(".box:contains(" + gridArray[x][y].position + ")")
+        .addClass("player")
+        .removeClass("passed");
     }
-    $(".box:contains(" + gridArray[x][y + 1].position + ")").css(
-      "background-color",
-      "aquamarine"
-    );
-    $(".box:contains(" + gridArray[x][y].position + ")").css(
-      "background-color",
-      "purple"
-    );
-    if (gridArray[x][y + 1].colour != "") {
-      $(".box:contains(" + gridArray[x][y].position + ")").css(
-        "background-color",
-        "purple"
-      );
-      $(".box:contains(" + gridArray[x][y + 1].position + ")").css(
-        "background-color",
-        "aquamarine"
-      );
-    } else {
-      $(".box:contains(" + gridArray[x][y].position + ")").css(
-        "background-color",
-        "purple"
-      );
-      $(".box:contains(" + gridArray[x][y + 1].position + ")").css(
-        "background-color",
-        "white"
-      );
-    }
+  } else if ((y = 0)) {
+    $(".box:contains(" + gridArray[x][y].position + ")")
+      .addClass("player")
+      .removeClass("passed");
+    // gridArray[x][y].colour = "aquamarine";
   }
+
   console.log("X", x, "Y", y);
 };
 
@@ -218,55 +166,26 @@ const upMovement = () => {
     if (
       $(".box:contains(" + gridArray[x][y].position + ")").attr("id") != "empty"
     ) {
-      if (
-        $(".box:contains(" + gridArray[x][y].position + ")").css(
-          "background-color"
-        ) != "rgb(255,255,255)"
-      ) {
-        $(".box:contains(" + gridArray[x][y].position + ")").css(
-          "background-color",
-          "aquamarine"
-        );
-        gridArray[x][y].colour = "aquamarine";
-      } else if ((x = 0)) {
-        $(".box:contains(" + gridArray[x][y].position + ")").css(
-          "background-color",
-          "aquamarine"
-        );
-        gridArray[x][y].colour = "aquamarine";
-      }
+      $(".box:contains(" + gridArray[x][y].position + ")")
+        .addClass("player")
+        .removeClass("passed");
+      $(".box:contains(" + gridArray[x + 1][y].position + ")")
+        .removeClass("player")
+        .addClass("passed");
+      // gridArray[x][y].colour = "aquamarine";
     } else {
       x++;
-      // gridArray[x][y].colour = "brown";
+      $(".box:contains(" + gridArray[x][y].position + ")")
+        .addClass("player")
+        .removeClass("passed");
     }
-    $(".box:contains(" + gridArray[x + 1][y].position + ")").css(
-      "background-color",
-      "aquamarine"
-    );
-    $(".box:contains(" + gridArray[x][y].position + ")").css(
-      "background-color",
-      "purple"
-    );
-    if (gridArray[x + 1][y].colour != "") {
-      $(".box:contains(" + gridArray[x][y].position + ")").css(
-        "background-color",
-        "purple"
-      );
-      $(".box:contains(" + gridArray[x + 1][y].position + ")").css(
-        "background-color",
-        "aquamarine"
-      );
-    } else {
-      $(".box:contains(" + gridArray[x][y].position + ")").css(
-        "background-color",
-        "purple"
-      );
-      $(".box:contains(" + gridArray[x + 1][y].position + ")").css(
-        "background-color",
-        "white"
-      );
-    }
+  } else if ((x = 0)) {
+    $(".box:contains(" + gridArray[x][y].position + ")")
+      .addClass("player")
+      .removeClass("passed");
+    // gridArray[x][y].colour = "aquamarine";
   }
+
   console.log("X", x, "Y", y);
 };
 
@@ -276,74 +195,39 @@ const downMovement = () => {
     if (
       $(".box:contains(" + gridArray[x][y].position + ")").attr("id") != "empty"
     ) {
-      if (
-        $(".box:contains(" + gridArray[x][y].position + ")").css(
-          "background-color"
-        ) != "rgb(255,255,255)"
-      ) {
-        $(".box:contains(" + gridArray[x][y].position + ")").css(
-          "background-color",
-          "aquamarine"
-        );
-        gridArray[x][y].colour = "aquamarine";
-      } else if ((x = gridArray.length)) {
-        $(".box:contains(" + gridArray[x][y].position + ")").css(
-          "background-color",
-          "aquamarine"
-        );
-        gridArray[x][y].colour = "aquamarine";
-      }
+      $(".box:contains(" + gridArray[x][y].position + ")")
+        .addClass("player")
+        .removeClass("passed");
+      $(".box:contains(" + gridArray[x - 1][y].position + ")")
+        .removeClass("player")
+        .addClass("passed");
+      // gridArray[x][y].colour = "aquamarine";
     } else {
       x--;
-      // gridArray[x][y].colour = "brown";
+      $(".box:contains(" + gridArray[x][y].position + ")")
+        .addClass("player")
+        .removeClass("passed");
     }
-    $(".box:contains(" + gridArray[x - 1][y].position + ")").css(
-      "background-color",
-      "aquamarine"
-    );
-    $(".box:contains(" + gridArray[x][y].position + ")").css(
-      "background-color",
-      "purple"
-    );
-    if (gridArray[x - 1][y].colour != "") {
-      $(".box:contains(" + gridArray[x][y].position + ")").css(
-        "background-color",
-        "purple"
-      );
-      $(".box:contains(" + gridArray[x - 1][y].position + ")").css(
-        "background-color",
-        "aquamarine"
-      );
-    } else {
-      $(".box:contains(" + gridArray[x][y].position + ")").css(
-        "background-color",
-        "purple"
-      );
-      $(".box:contains(" + gridArray[x - 1][y].position + ")").css(
-        "background-color",
-        "white"
-      );
-    }
+  } else if ((x = gridArray.length - 1)) {
+    $(".box:contains(" + gridArray[x][y].position + ")")
+      .addClass("player")
+      .removeClass("passed");
   }
   console.log("X", x, "Y", y);
 };
 
 const winCheck = () => {
-  let gridArrCheck = [];
-  for (let i of gridArray) {
-    for (let j of i) {
-      gridArrCheck.push(j.colour);
-    }
-  }
-  // console.log(gridArrCheck);
-  if (gridArrCheck.indexOf("") >= 0) {
-    console.log("incomplete");
-  } else {
+  if (
+    $(".passed").length == 25 - $(".box#empty").length - 1 &&
+    $(".player").length == 1
+  ) {
     let remainingTime = document.getElementById("timer").innerHTML;
     $(".score").text(`Score: ${remainingTime / 10}`);
     $(".grid").hide(50);
     $("#timer").hide();
     $(".win").show(100);
+  } else {
+    console.log("incomplete");
   }
 };
 
@@ -389,7 +273,7 @@ const muteSFX = () => {
     $jumpSound.volume = 0;
     $muteSFXBtn.text("Unmute SFX");
   } else {
-    $jumpSound.volume = 0.3;
+    $jumpSound.volume = 1;
     $muteSFXBtn.text("Mute SFX");
   }
 };
@@ -398,10 +282,10 @@ $muteSFXBtn.on("click", muteSFX);
 const $muteMusicBtn = $("#muteMusicBtn");
 const muteMusic = () => {
   if ($muteMusicBtn.text() === "Mute Music") {
-    $musicSound.volume = 0;
+    $musicSound.pause();
     $muteMusicBtn.text("Unmute Music");
   } else {
-    $musicSound.volume = 0.1;
+    $musicSound.play();
     $muteMusicBtn.text("Mute Music");
   }
 };
