@@ -41,11 +41,18 @@ const gridArray = [
 
 let x = 0,
   y = 0,
-  timerStart = false,
-  $prevBoxText = null;
+  timerStart = false;
+
+const $jumpSound = new Audio("/jump.ogg");
+const $musicSound = new Audio("/My-Fat-Cat.mp3");
+$jumpSound.volume = 0.3;
+$musicSound.volume = 0.1;
+$musicSound.loop = true;
 
 $(".help").hide();
 $(".win").hide();
+$(".sound").hide();
+$musicSound.play();
 
 $(document).keydown(function (event) {
   var keyCode = event.keyCode || event.which;
@@ -55,21 +62,33 @@ $(document).keydown(function (event) {
     case arrow.left:
       // console.log("left press");
       leftMovement();
+      $jumpSound.pause();
+      $jumpSound.currentTime = 0;
+      $jumpSound.play();
       break;
 
     case arrow.up:
       // console.log("up press");
       upMovement();
+      $jumpSound.pause();
+      $jumpSound.currentTime = 0;
+      $jumpSound.play();
       break;
 
     case arrow.right:
       // console.log("right press");
       rightMovement();
+      $jumpSound.pause();
+      $jumpSound.currentTime = 0;
+      $jumpSound.play();
       break;
 
     case arrow.down:
       // console.log("down press");
       downMovement();
+      $jumpSound.pause();
+      $jumpSound.currentTime = 0;
+      $jumpSound.play();
       break;
   }
 
@@ -322,9 +341,9 @@ const winCheck = () => {
   } else {
     let remainingTime = document.getElementById("timer").innerHTML;
     $(".score").text(`Score: ${remainingTime / 10}`);
-    $(".grid").hide();
+    $(".grid").hide(50);
     $("#timer").hide();
-    $(".win").show();
+    $(".win").show(100);
   }
 };
 
@@ -357,3 +376,33 @@ const help = () => {
   $(".help").toggle();
 };
 $helpBtn.on("click", help);
+
+const $soundBtn = $("#soundBtn");
+const sound = () => {
+  $(".sound").toggle();
+};
+$soundBtn.on("click", sound);
+
+const $muteSFXBtn = $("#muteSFXBtn");
+const muteSFX = () => {
+  if ($muteSFXBtn.text() === "Mute SFX") {
+    $jumpSound.volume = 0;
+    $muteSFXBtn.text("Unmute SFX");
+  } else {
+    $jumpSound.volume = 0.3;
+    $muteSFXBtn.text("Mute SFX");
+  }
+};
+$muteSFXBtn.on("click", muteSFX);
+
+const $muteMusicBtn = $("#muteMusicBtn");
+const muteMusic = () => {
+  if ($muteMusicBtn.text() === "Mute Music") {
+    $musicSound.volume = 0;
+    $muteMusicBtn.text("Unmute Music");
+  } else {
+    $musicSound.volume = 0.1;
+    $muteMusicBtn.text("Mute Music");
+  }
+};
+$muteMusicBtn.on("click", muteMusic);
