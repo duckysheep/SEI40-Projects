@@ -1,17 +1,18 @@
 import $ from "jquery";
 import "./style.css";
 
+//set up grid play area
 const gridArray = [
   [
     { position: "00" },
-    { position: "01" },
-    { position: "02" },
+    { position: "01", id: "empty" },
+    { position: "02", id: "empty" },
     { position: "03" },
-    { position: "04" },
+    { position: "04", id: "empty" },
   ],
   [
     { position: "10" },
-    { position: "11" },
+    { position: "11", id: "empty" },
     { position: "12" },
     { position: "13" },
     { position: "14" },
@@ -19,7 +20,7 @@ const gridArray = [
   [
     { position: "20" },
     { position: "21" },
-    { position: "22" },
+    { position: "22", id: "empty" },
     { position: "23" },
     { position: "24" },
   ],
@@ -27,7 +28,7 @@ const gridArray = [
     { position: "30" },
     { position: "31" },
     { position: "32" },
-    { position: "33" },
+    { position: "33", id: "empty" },
     { position: "34" },
   ],
   [
@@ -39,22 +40,94 @@ const gridArray = [
   ],
 ];
 
+//Set up starting player location, flags, and audio
 let x = 0,
   y = 0,
-  timerStart = false;
-
-const $jumpSound = new Audio("/jump.ogg");
-const $musicSound = new Audio("/My-Fat-Cat.mp3");
+  timerStart = false,
+  finalScore = false;
+const $jumpSound = new Audio("/jump.ogg"),
+  $musicSound = new Audio("/My-Fat-Cat.mp3");
 $jumpSound.volume = 1;
 $musicSound.volume = 1;
 $musicSound.loop = true;
 $musicSound.play();
 
+//Make grid according to grid play area
+const makeGrid = (gridTemplate) => {
+  for (let x = 0; x < gridTemplate.length; x++) {
+    for (let y = 0; y < gridTemplate[x].length; y++) {
+      if (gridTemplate[x][y].hasOwnProperty("id") === true) {
+        $(".grid").append(
+          $("<div>")
+            .addClass("box")
+            .text(gridTemplate[x][y].position)
+            .attr("id", gridTemplate[x][y].id)
+        );
+      } else {
+        $(".grid").append(
+          $("<div>").addClass("box").text(gridTemplate[x][y].position)
+        );
+      }
+    }
+  }
+};
+
+//Adding into page
+const makeDivs = () => {
+  $("body").prepend(
+    $("<div>")
+      .addClass("win")
+      .text("You Won!")
+      .append($("<div>").addClass("score"))
+  );
+
+  $("body")
+    .prepend($("<div>").addClass("break"))
+    .prepend($("<button>").attr("id", "resetBtn").text("Reset"));
+
+  $("body")
+    .prepend($("<div>").addClass("break"))
+    .prepend(
+      $("<div>")
+        .addClass("sound")
+        .prepend($("<button>").attr("id", "muteMusicBtn").text("Mute Music"))
+        .prepend($("<button>").attr("id", "muteSFXBtn").text("Mute SFX"))
+    )
+    .prepend($("<button>").attr("id", "soundBtn").text("Sound Settings"));
+
+  $("body")
+    .prepend($("<div>").addClass("break"))
+    .prepend(
+      $("<div>")
+        .addClass("help")
+        .append(
+          $("<p>").html(
+            "Use arrow keys to move<br>Tile colours will change when you move on to them. Brown tiles will block your movement path<br>Goal: change all tile colours quickly as you can"
+          )
+        )
+    );
+
+  $("body")
+    .prepend($("<div>").addClass("break"))
+    .prepend($("<button>").attr("id", "helpBtn").text("Help"));
+
+  $("body")
+    .prepend($("<div>").addClass("break"))
+    .prepend($("<span>").attr("id", "timer"));
+
+  $("body").prepend($("<div>").addClass("grid"));
+
+  $("body").prepend($("<h1>").text("Project 1"));
+};
+makeDivs();
+makeGrid(gridArray);
+$(".box:contains(" + gridArray[x][y].position + ")").addClass("player");
+
 $(".help").hide();
 $(".win").hide();
 $(".sound").hide();
-$(".box:contains(" + gridArray[x][y].position + ")").addClass("player");
 
+//Functions
 $(document).keydown(function (event) {
   var keyCode = event.keyCode || event.which;
   var arrow = { left: 37, up: 38, right: 39, down: 40 };
@@ -96,14 +169,14 @@ $(document).keydown(function (event) {
   // console.log(gridArray);
   if (!timerStart) {
     if (keyCode === 37 || keyCode === 38 || keyCode === 39 || keyCode === 40)
-      countdown(10);
+      countdown(10000);
     timerStart = true;
   }
 
   winCheck();
 });
 
-//try adding classes for css changes
+//Movement logic
 const rightMovement = () => {
   if (y < gridArray[x].length - 1) {
     y++;
@@ -116,7 +189,6 @@ const rightMovement = () => {
       $(".box:contains(" + gridArray[x][y - 1].position + ")")
         .removeClass("player")
         .addClass("passed");
-      // gridArray[x][y].colour = "aquamarine";
     } else {
       y--;
       $(".box:contains(" + gridArray[x][y].position + ")")
@@ -143,7 +215,6 @@ const leftMovement = () => {
       $(".box:contains(" + gridArray[x][y + 1].position + ")")
         .removeClass("player")
         .addClass("passed");
-      // gridArray[x][y].colour = "aquamarine";
     } else {
       y++;
       $(".box:contains(" + gridArray[x][y].position + ")")
@@ -154,7 +225,6 @@ const leftMovement = () => {
     $(".box:contains(" + gridArray[x][y].position + ")")
       .addClass("player")
       .removeClass("passed");
-    // gridArray[x][y].colour = "aquamarine";
   }
 
   console.log("X", x, "Y", y);
@@ -172,7 +242,6 @@ const upMovement = () => {
       $(".box:contains(" + gridArray[x + 1][y].position + ")")
         .removeClass("player")
         .addClass("passed");
-      // gridArray[x][y].colour = "aquamarine";
     } else {
       x++;
       $(".box:contains(" + gridArray[x][y].position + ")")
@@ -183,7 +252,6 @@ const upMovement = () => {
     $(".box:contains(" + gridArray[x][y].position + ")")
       .addClass("player")
       .removeClass("passed");
-    // gridArray[x][y].colour = "aquamarine";
   }
 
   console.log("X", x, "Y", y);
@@ -201,7 +269,6 @@ const downMovement = () => {
       $(".box:contains(" + gridArray[x - 1][y].position + ")")
         .removeClass("player")
         .addClass("passed");
-      // gridArray[x][y].colour = "aquamarine";
     } else {
       x--;
       $(".box:contains(" + gridArray[x][y].position + ")")
@@ -216,42 +283,58 @@ const downMovement = () => {
   console.log("X", x, "Y", y);
 };
 
+//Win logic
 const winCheck = () => {
   if (
     $(".passed").length == 25 - $(".box#empty").length - 1 &&
     $(".player").length == 1
   ) {
-    let remainingTime = document.getElementById("timer").innerHTML;
-    $(".score").text(`Score: ${remainingTime / 10}`);
     $(".grid").hide(50);
     $("#timer").hide();
     $(".win").show(100);
+    $jumpSound.volume = 0;
+    finalScore = true;
+    $(".score").text(
+      `Score: ${document.getElementById("timer").innerHTML / 10}`
+    );
   } else {
-    console.log("incomplete");
+    finalScore = false;
+    console.log(finalScore);
   }
+};
+
+//timer
+const countdown = (milli) => {
+  setInterval(function () {
+    if (milli >= 0 && finalScore != true) {
+      milli -= 5;
+      document.getElementById("timer").innerHTML = milli;
+    } else {
+      clearInterval(countdown);
+      return;
+    }
+  }, 5);
 };
 
 //https://stackoverflow.com/questions/22385368/jquery-countdown-timer-with-milliseconds
 // We actually only run our method every x millisecs, due to browser constraints
-var THROTTLE_AMOUNT = 4;
-const countdown = (secs) => {
-  var milli = secs * 1000;
-  var counter = setInterval(function () {
-    if (milli <= 0) {
-      clearInterval(counter);
-      return;
-    }
-    milli -= THROTTLE_AMOUNT;
-    document.getElementById("timer").innerHTML = milli; // + " ms"; // watch for spelling
-  }, THROTTLE_AMOUNT);
-};
+// var THROTTLE_AMOUNT = 4;
+// const countdown = (secs) => {
+//   var milli = secs * 1000;
+//   var counter = setInterval(function () {
+//     if (milli <= 0) {
+//       clearInterval(counter);
+//       return;
+//     }
+//     milli -= THROTTLE_AMOUNT;
+//     document.getElementById("timer").innerHTML = milli; // + " ms"; // watch for spelling
+//   }, THROTTLE_AMOUNT);
+// };
 
+//Button functions
 const $resetBtn = $("#resetBtn");
 const reset = () => {
   location.reload();
-  // (x = 0), (y = 0);
-  // $(".box").css("background-color", "white");
-  // timerStart = false;
 };
 $resetBtn.on("click", reset);
 
