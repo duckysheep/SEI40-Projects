@@ -306,7 +306,7 @@ const winCheck = () => {
 //timer
 const countdown = (milli) => {
   setInterval(function () {
-    if (milli >= 0 && finalScore != true) {
+    if (milli >= 5 && finalScore != true) {
       milli -= 5;
       document.getElementById("timer").innerHTML = milli;
     } else {
