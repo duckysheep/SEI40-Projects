@@ -1,51 +1,30 @@
-import { useEffect, useState } from "react";
-import "./App.css";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { useState } from "react";
+import Layout from "./layouts/Layout";
+import Home from "./pages/Home";
+import Calculator from "./pages/Calculator";
+import Search from "./pages/Search";
 
 function App() {
-  const [apiData, setApiData] = useState({});
-  const item = "great%20white%20shark";
-  const spacedItem = item.replace(/%20/g, " ");
+  const [favs, setFavs] = useState([]);
 
-  useEffect(() => {
-    //runescape ge api
-    //https://api.weirdgloop.org/#/exchange/getExchangeCurrentPrice
-    const apiUrl = `https://api.weirdgloop.org/exchange/history/rs/latest?name=${item}&lang=en`;
+  const addFav = (card) => setFavs([...favs, card]);
 
-    const makeApiCall = async () => {
-      const res = await fetch(apiUrl);
-      const data = await res.json();
-      console.log("data", Object.values(data)[0]);
-      setApiData(Object.values(data)[0]);
-      // console.log("apiData", apiData);
-    };
-
-    makeApiCall();
-  }, []);
-
-  // useEffect(() => {
-  //   const apiUrl = `https://api.weirdgloop.org/exchange/history/rs/latest?name=${item}&lang=en`;
-  //   const makeApiCall = () => {
-  //     fetch(apiUrl)
-  //       .then((res) => res.json())
-  //       .then((data) => {
-  //         console.log("data", Object.values(data)[0].price);
-  //         setApiData(data);
-  //         console.log("apiData", apiData);
-  //       });
-  //   };
-  //   makeApiCall();
-  // }, []);
+  const delFav = (card) => setFavs([]);
 
   return (
-    <div className="App">
-      <h1>Project 2</h1>
-      <div className="temp">
-        <h2>API check</h2>
-        <p>
-          Price of <b>{spacedItem}</b> : <b>{apiData.price}gp</b>
-        </p>
-      </div>
-    </div>
+    <>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Layout />}>
+            <Route index element={<Home />} />
+            <Route path="search" element={<Search />} />
+            <Route path="calculator" element={<Calculator />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </>
   );
 }
 
