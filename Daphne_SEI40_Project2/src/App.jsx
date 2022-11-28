@@ -7,12 +7,7 @@ import Calculator from "./pages/Calculator";
 import Search from "./pages/Search";
 
 function App() {
-  const [results, setResults] = useState([
-    "input",
-    "mat1name",
-    "mat1qty",
-    "price",
-  ]);
+  const [results, setResults] = useState([""]);
 
   return (
     <>

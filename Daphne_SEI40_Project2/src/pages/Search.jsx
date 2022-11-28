@@ -2,22 +2,25 @@ import { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { useSearchParams } from "react-router-dom";
-import itemData from "../assets/data/itemdata";
+// import itemData from "../assets/data/itemdata";
+import itemDataCopy from "../assets/data/itemdatacopy";
 
 function Search({ setResults, results }) {
-  // const [results, setResults] = useState([
-  //   "input",
-  //   "mat1name",
-  //   "mat1qty",
-  //   "price",
-  // ]);
   const [status, setStatus] = useState("idle");
   const [searchParams, setSearchParams] = useSearchParams();
 
   const input = searchParams.get("input");
-  console.log(input);
-  const itemInfoStr = itemData.results[input]?.printouts["Production JSON"][0];
-  console.log("searchedItem", itemInfoStr);
+  // console.log(input);
+  console.log(
+    itemDataCopy.results[input]?.printouts["Production JSON"][0].skill
+  );
+  console.log(
+    itemDataCopy.results[input]?.printouts["Production JSON"][0].mats
+  );
+  const matData =
+    itemDataCopy.results[input]?.printouts["Production JSON"][0].mats;
+  // const itemInfoStr = itemData.results[input]?.printouts["Production JSON"][0];
+  // console.log("searchedItem", itemInfoStr);
 
   // useEffect(() => {
   //   const fetchCards = async () => {
@@ -62,6 +65,7 @@ function Search({ setResults, results }) {
   //   setStatus("loading");
   //   fetchCards();
   // }, [input]);
+  console.log("matdata", matData);
 
   const handleSearch = (event) => {
     event.preventDefault();
@@ -70,27 +74,9 @@ function Search({ setResults, results }) {
     const data = Object.fromEntries(formData);
     // console.log("input", data);
     setSearchParams(data);
-
-    if (itemInfoStr?.search("mats") >= 0) {
-      let item1MatsPos = itemInfoStr.slice(itemInfoStr.search("mats"));
-      console.log("str", item1MatsPos);
-
-      let mat1Qty = item1MatsPos.slice(
-        item1MatsPos.search("quantity") + 11,
-        item1MatsPos.search("name") - 3
-      );
-      console.log("mat1Qty", mat1Qty);
-
-      let mat1Name = item1MatsPos.slice(
-        item1MatsPos.search("name") + 7,
-        item1MatsPos.search("image") - 3
-      );
-      console.log("mat1Price", mat1Name);
-      setResults([input, mat1Name, mat1Qty, "price"]);
-      // console.log("results", results);
-    }
+    setResults([matData]);
   };
-
+  console.log("results", results[0]);
   return (
     <>
       <h2>Search</h2>
@@ -109,7 +95,7 @@ function Search({ setResults, results }) {
         <>
           <p>{input}</p>
           <hr></hr>
-          <p>{results}</p>
+          {/* <p>{results[0]}</p> */}
         </>
       )}
     </>

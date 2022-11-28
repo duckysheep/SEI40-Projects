@@ -5,9 +5,10 @@ function Calculator({ results }) {
   const [apiData, setApiData] = useState({});
   //search for multiple items with | seperator
 
+  console.log("calc", results[0][0]?.name);
+
   // const input = "Steel bar";
-  // const input = "Steel bar";
-  const input = `${results[0]}|${results[1]}`;
+  const input = `${results[0][0]?.name}|${results[0][1]?.name}`;
 
   useEffect(() => {
     //runescape ge api
@@ -41,18 +42,16 @@ function Calculator({ results }) {
   return (
     <>
       <h1>Calculator</h1>
-      <p>
-        Price of <b>{results[0]}</b> : <b>{apiData[0]?.price}gp</b>
-      </p>
+      <p>{/* Price of <b>{results[0]}</b> : <b>{apiData[0]?.price}gp</b> */}</p>
       <Accordion defaultActiveKey="0">
         <Accordion.Item eventKey="0">
           <Accordion.Header>
             <Table striped bordered hover>
               <thead>
                 <tr>
-                  <th>Item: {results[0]}</th>
+                  {/* <th>Item: {results[0]}</th>
                   <th>Amount: 1</th>
-                  <th>Price {apiData[0]?.price}</th>
+                  <th>Price {apiData[0]?.price}</th> */}
                 </tr>
               </thead>
             </Table>
@@ -69,15 +68,15 @@ function Calculator({ results }) {
               </thead>
               <tbody>
                 <tr>
-                  <td>{results[1]}</td>
-                  <td>{results[2]}</td>
+                  <td>{results[0][0]?.name}</td>
+                  <td>{results[0][0]?.quantity}</td>
                   <td>{apiData[1]?.price}</td>
                 </tr>
-                {/* <tr>
-                  <td>mat 2</td>
-                  <td>qty 2</td>
-                  <td>price 2</td>
-                </tr> */}
+                <tr>
+                  <td>{results[0][1]?.name}</td>
+                  <td>{results[0][1]?.quantity}</td>
+                  <td>{apiData[0]?.price}</td>
+                </tr>
               </tbody>
             </Table>
           </Accordion.Body>
