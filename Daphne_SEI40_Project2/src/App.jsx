@@ -7,11 +7,12 @@ import Calculator from "./pages/Calculator";
 import Search from "./pages/Search";
 
 function App() {
-  const [favs, setFavs] = useState([]);
-
-  const addFav = (card) => setFavs([...favs, card]);
-
-  const delFav = (card) => setFavs([]);
+  const [results, setResults] = useState([
+    "input",
+    "mat1name",
+    "mat1qty",
+    "price",
+  ]);
 
   return (
     <>
@@ -19,8 +20,14 @@ function App() {
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<Home />} />
-            <Route path="search" element={<Search />} />
-            <Route path="calculator" element={<Calculator />} />
+            <Route
+              path="search"
+              element={<Search results={results} setResults={setResults} />}
+            />
+            <Route
+              path="calculator"
+              element={<Calculator results={results} />}
+            />
           </Route>
         </Routes>
       </BrowserRouter>

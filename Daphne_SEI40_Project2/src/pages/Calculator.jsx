@@ -1,45 +1,38 @@
 import { useEffect, useState } from "react";
+import { Accordion, Table } from "react-bootstrap";
 
-function Calculator() {
+function Calculator({ results }) {
   const [apiData, setApiData] = useState({});
-  const item = "great%20white%20shark";
-  const spacedItem = item.replace(/%20/g, " ");
-  const input = "iron axe";
+  //search for multiple items with | seperator
+
+  // const input = "Steel bar";
+  // const input = "Steel bar";
+  const input = `${results[0]}|${results[1]}`;
 
   useEffect(() => {
     //runescape ge api
     //https://api.weirdgloop.org/#/exchange/getExchangeCurrentPrice
-    // const apiUrl = `https://api.weirdgloop.org/exchange/history/rs/latest?name=${item}&lang=en`;
-    const apiUrl = `https://runescape.wiki/api.php?action=parse&format=json&page=${input}&redirects=1&prop=wikitext&formatversion=2`;
+    const apiUrl = `https://api.weirdgloop.org/exchange/history/rs/latest?name=${input}&lang=en`;
+    // const apiUrl = `https://runescape.wiki/api.php?action=parse&format=json&page=${input}&redirects=1&prop=wikitext&formatversion=2`;
 
     const makeApiCall = async () => {
       const res = await fetch(apiUrl);
       const data = await res.json();
       console.log(data);
-      console.log(data.parse.wikitext);
       // console.log("data", Object.values(data)[0]);
-      setApiData(Object.values(data)[0]);
-      // console.log("apiData", apiData);
-      for (let i = 1; data.parse.wikitext.search(`mat${i}`) >= 0; i++) {
-        console.log(
-          i,
-          data.parse.wikitext.search(`mat${i}`),
-          data.parse.wikitext.search(`mat${i}price`),
-          data.parse.wikitext.substring(
-            data.parse.wikitext.search(`mat${i}`),
-            data.parse.wikitext.search(`mat${i}price`) - 2
-          )
-        );
-        // console.log(
-        //   i,
-        //   data.parse.wikitext.search(`mat${i}qty`),
-        //   data.parse.wikitext.search(`mat${i + 1}`),
-        //   data.parse.wikitext.substring(
-        //     data.parse.wikitext.search(`mat${i}qty`),
-        //     data.parse.wikitext.search(`mat${i + 1}`)
-        //   )
-        // );
-      }
+      setApiData(Object.values(data));
+      console.log("apiData", apiData);
+      // for (let i = 1; data.parse.wikitext.search(`mat${i}`) >= 0; i++) {
+      //   console.log(
+      //     i,
+      //     data.parse.wikitext.search(`mat${i}`),
+      //     data.parse.wikitext.search(`mat${i}price`),
+      //     data.parse.wikitext.substring(
+      //       data.parse.wikitext.search(`mat${i}`),
+      //       data.parse.wikitext.search(`mat${i}price`) - 2
+      //     )
+      //   );
+      // }
     };
 
     makeApiCall();
@@ -49,8 +42,47 @@ function Calculator() {
     <>
       <h1>Calculator</h1>
       <p>
-        Price of <b>{input}</b> : <b>{apiData.price}gp</b>
+        Price of <b>{results[0]}</b> : <b>{apiData[0]?.price}gp</b>
       </p>
+      <Accordion defaultActiveKey="0">
+        <Accordion.Item eventKey="0">
+          <Accordion.Header>
+            <Table striped bordered hover>
+              <thead>
+                <tr>
+                  <th>Item: {results[0]}</th>
+                  <th>Amount: 1</th>
+                  <th>Price {apiData[0]?.price}</th>
+                </tr>
+              </thead>
+            </Table>
+          </Accordion.Header>
+          <Accordion.Body>
+            Mats
+            <Table striped bordered hover>
+              <thead>
+                <tr>
+                  <th>Materials</th>
+                  <th>Quantity Req</th>
+                  <th>Price</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>{results[1]}</td>
+                  <td>{results[2]}</td>
+                  <td>{apiData[1]?.price}</td>
+                </tr>
+                {/* <tr>
+                  <td>mat 2</td>
+                  <td>qty 2</td>
+                  <td>price 2</td>
+                </tr> */}
+              </tbody>
+            </Table>
+          </Accordion.Body>
+        </Accordion.Item>
+      </Accordion>
     </>
   );
 }
