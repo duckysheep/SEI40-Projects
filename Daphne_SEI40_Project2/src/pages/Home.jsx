@@ -1,9 +1,9 @@
-import itemData from "../assets/data/itemdata";
+// import itemData from "../assets/data/itemdata";
 
 function Home() {
-  const temp = itemData.results["Steel bar"].printouts["Production JSON"][0];
+  // const temp = itemData.results["Steel bar"].printouts["Production JSON"][0];
 
-  console.log("temp", temp);
+  // console.log("temp", temp);
 
   return (
     <>
@@ -12,7 +12,7 @@ function Home() {
         Calculator to help calculate RS crafting costs with real time Grand
         Exchange data
       </p>
-      <p>{temp}</p>
+      {/* <p>{temp}</p> */}
     </>
   );
 }

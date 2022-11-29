@@ -17,8 +17,8 @@ function TopNavbar() {
               <Nav.Link to="/search" as={NavLink}>
                 Search
               </Nav.Link>
-              <Nav.Link to="/calculator" as={NavLink}>
-                Calculator
+              <Nav.Link to="/favs" as={NavLink}>
+                Favs
               </Nav.Link>
             </Nav>
           </Navbar.Collapse>

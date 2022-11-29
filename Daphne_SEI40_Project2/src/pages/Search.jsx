@@ -4,6 +4,9 @@ import Form from "react-bootstrap/Form";
 import { useSearchParams } from "react-router-dom";
 // import itemData from "../assets/data/itemdata";
 import itemDataCopy from "../assets/data/itemdatacopy";
+import Calculator from "./Calculator";
+
+console.log(Object.keys(itemDataCopy.results));
 
 function Search({ setResults, results }) {
   const [status, setStatus] = useState("idle");
@@ -11,12 +14,12 @@ function Search({ setResults, results }) {
 
   const input = searchParams.get("input");
   // console.log(input);
-  console.log(
-    itemDataCopy.results[input]?.printouts["Production JSON"][0].skill
-  );
-  console.log(
-    itemDataCopy.results[input]?.printouts["Production JSON"][0].mats
-  );
+  // console.log(
+  //   itemDataCopy.results[input]?.printouts["Production JSON"][0].skill
+  // );
+  // console.log(
+  //   itemDataCopy.results[input]?.printouts["Production JSON"][0].mats
+  // );
   const matData =
     itemDataCopy.results[input]?.printouts["Production JSON"][0].mats;
   // const itemInfoStr = itemData.results[input]?.printouts["Production JSON"][0];
@@ -65,7 +68,7 @@ function Search({ setResults, results }) {
   //   setStatus("loading");
   //   fetchCards();
   // }, [input]);
-  console.log("matdata", matData);
+  // console.log("matdata", matData);
 
   const handleSearch = (event) => {
     event.preventDefault();
@@ -76,7 +79,8 @@ function Search({ setResults, results }) {
     setSearchParams(data);
     setResults([matData]);
   };
-  console.log("results", results[0]);
+  // console.log("results", results[0]);
+
   return (
     <>
       <h2>Search</h2>
@@ -95,6 +99,12 @@ function Search({ setResults, results }) {
         <>
           <p>{input}</p>
           <hr></hr>
+          {results[0] === undefined ? (
+            console.log("undefined results")
+          ) : (
+            <Calculator results={results} input={input} />
+          )}
+
           {/* <p>{results[0]}</p> */}
         </>
       )}

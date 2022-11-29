@@ -5,9 +5,11 @@ import Layout from "./layouts/Layout";
 import Home from "./pages/Home";
 import Calculator from "./pages/Calculator";
 import Search from "./pages/Search";
+import Favs from "./pages/Favs";
 
 function App() {
-  const [results, setResults] = useState([""]);
+  const [results, setResults] = useState([]);
+  const [favourites, setFavourites] = useState([]);
 
   return (
     <>
@@ -19,10 +21,7 @@ function App() {
               path="search"
               element={<Search results={results} setResults={setResults} />}
             />
-            <Route
-              path="calculator"
-              element={<Calculator results={results} />}
-            />
+            <Route path="favs" element={<Favs results={results} />} />
           </Route>
         </Routes>
       </BrowserRouter>
