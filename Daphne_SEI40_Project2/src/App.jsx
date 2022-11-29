@@ -6,6 +6,7 @@ import Home from "./pages/Home";
 import Calculator from "./pages/Calculator";
 import Search from "./pages/Search";
 import Favs from "./pages/Favs";
+import "./App.css";
 
 function App() {
   const [results, setResults] = useState([]);
@@ -19,9 +20,21 @@ function App() {
             <Route index element={<Home />} />
             <Route
               path="search"
-              element={<Search results={results} setResults={setResults} />}
+              element={
+                <Search
+                  results={results}
+                  setResults={setResults}
+                  setFavourites={setFavourites}
+                  favourites={favourites}
+                />
+              }
             />
-            <Route path="favs" element={<Favs results={results} />} />
+            <Route
+              path="favs"
+              element={
+                <Favs favourites={favourites} setFavourites={setFavourites} />
+              }
+            />
           </Route>
         </Routes>
       </BrowserRouter>

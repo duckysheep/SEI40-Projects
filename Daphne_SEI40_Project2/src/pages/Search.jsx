@@ -3,106 +3,76 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { useSearchParams } from "react-router-dom";
 // import itemData from "../assets/data/itemdata";
-import itemDataCopy from "../assets/data/itemdatacopy";
+import itemDataCopy from "../data/itemdatacopy";
 import Calculator from "./Calculator";
+import Select from "react-select";
 
-console.log(Object.keys(itemDataCopy.results));
+// console.log(Object.keys(itemDataCopy.results));
 
-function Search({ setResults, results }) {
-  const [status, setStatus] = useState("idle");
-  const [searchParams, setSearchParams] = useSearchParams();
+//https://codesandbox.io/s/upbeat-torvalds-kzcug?file=/src/App.js
+const SelectBox = ({ options, name, onChange }) => {
+  const [optionSelected, setSelectedOptions] = useState([]);
 
-  const input = searchParams.get("input");
-  // console.log(input);
-  // console.log(
-  //   itemDataCopy.results[input]?.printouts["Production JSON"][0].skill
-  // );
-  // console.log(
-  //   itemDataCopy.results[input]?.printouts["Production JSON"][0].mats
-  // );
-  const matData =
-    itemDataCopy.results[input]?.printouts["Production JSON"][0].mats;
-  // const itemInfoStr = itemData.results[input]?.printouts["Production JSON"][0];
-  // console.log("searchedItem", itemInfoStr);
-
-  // useEffect(() => {
-  //   const fetchCards = async () => {
-  //     try {
-  //       const request = await fetch(
-  //         `https://runescape.wiki/api.php?action=parse&format=json&page=${input}&redirects=1&prop=wikitext&formatversion=2`
-  //       );
-  //       if (!request.ok) {
-  //         throw new Error("Network error");
-  //       }
-  //       const data = await request.json();
-
-  //       console.log(data.parse.wikitext);
-
-  //       for (let i = 1; data.parse.wikitext.search(`mat${i}`) >= 0; i++) {
-  //       console.log(
-  //         i,
-  //         data.parse.wikitext.search(`mat${i}`),
-  //         data.parse.wikitext.search(`mat${i}price`),
-  //         data.parse.wikitext.substring(
-  //           data.parse.wikitext.search(`mat${i}`),
-  //           data.parse.wikitext.search(`mat${i}price`) - 2
-  //         )
-  //       );
-  //       setResults([
-  //         ...results,
-  //         data.parse.wikitext.substring(
-  //           data.parse.wikitext.search(`mat${i}`),
-  //           data.parse.wikitext.search(`mat${i}price`) - 2
-  //         ),
-  //       ]);
-  //       console.log(results);
-  //       }
-
-  //       setResults(data?.parse?.wikitext);
-  //       setStatus("done");
-  //     } catch (error) {
-  //       console.error(error);
-  //       setStatus("error");
-  //     }
-  //   };
-  //   setStatus("loading");
-  //   fetchCards();
-  // }, [input]);
-  // console.log("matdata", matData);
-
-  const handleSearch = (event) => {
-    event.preventDefault();
-
-    const formData = new FormData(event.target);
-    const data = Object.fromEntries(formData);
-    // console.log("input", data);
-    setSearchParams(data);
-    setResults([matData]);
+  const handleChange = (selected) => {
+    onChange(selected.value);
+    //console.log(selected)
+    setSelectedOptions(selected);
   };
-  // console.log("results", results[0]);
 
   return (
+    <Select
+      options={options}
+      isLoading={!options}
+      closeMenuOnSelect={true}
+      onChange={handleChange}
+      value={optionSelected}
+      name={name}
+    />
+  );
+};
+
+const data = Object.keys(itemDataCopy.results);
+const categories = data.map((item) => ({ value: item, label: item }));
+
+function Search({ setResults, results, favourites, setFavourites }) {
+  const [status, setStatus] = useState("idle");
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [apiData, setApiData] = useState({});
+
+  const input = searchParams.get("input");
+
+  const matData =
+    itemDataCopy.results[input]?.printouts["Production JSON"][0].mats;
+
+  const handleChange = (e) => {
+    console.log("e", { input: e });
+    setSearchParams({ input: e });
+    setResults([itemDataCopy.results[e]?.printouts["Production JSON"][0]]);
+  };
+
+  // console.log(results[0].quantity);
+  // console.log(results[0].mats);
+  return (
     <>
-      <h2>Search</h2>
-      <Form onSubmit={handleSearch}>
-        <fieldset>
-          <Form.Group>
-            <Form.Label>Type:</Form.Label>
-            <Form.Control name="input" type="search" defaultValue={input} />
-            <Button type="submit">Search</Button>
-          </Form.Group>
-        </fieldset>
-      </Form>
+      <h1>Search</h1>
+      <SelectBox options={categories} name="input" onChange={handleChange} />
       {status === "loading" ? (
         <progress />
       ) : (
         <>
-          <p>{input}</p>
+          {/* <p>{input}</p> */}
           <hr></hr>
           {results[0] === undefined ? (
             console.log("undefined results")
           ) : (
-            <Calculator results={results} input={input} />
+            <Calculator
+              results={results}
+              input={input}
+              favourites={favourites}
+              setFavourites={setFavourites}
+              apiData={apiData}
+              setApiData={setApiData}
+            />
           )}
 
           {/* <p>{results[0]}</p> */}
