@@ -1,0 +1,25 @@
+const skillList = [
+  "Crafting",
+  "Archaeology",
+  "Smithing",
+  "Construction",
+  "Runecrafting",
+  "Invention",
+  "Summoning",
+  "Slayer",
+  "Fletching",
+  "Magic",
+  "Firemaking",
+  "Divination",
+  "Cooking",
+  "Herblore",
+  // "No",
+  "Farming",
+  "Prayer",
+  "Mining",
+  // "None",
+  "Woodcutting",
+  // "?",
+];
+
+export default skillList;

@@ -6,6 +6,9 @@ import { useSearchParams } from "react-router-dom";
 import itemDataCopy from "../data/itemdatacopy";
 import Calculator from "./Calculator";
 import Select from "react-select";
+import { ToggleButton } from "react-bootstrap";
+import ToggleButtonGroupControlled from "./FilterButtons";
+import skillList from "../data/skillList";
 
 // console.log(Object.keys(itemDataCopy.results));
 
@@ -15,7 +18,11 @@ const SelectBox = ({ options, name, onChange }) => {
 
   const handleChange = (selected) => {
     onChange(selected.value);
-    //console.log(selected)
+    // console.log(
+    //   (itemDataCopy?.results[selected.value]?.printouts[
+    //     "Production JSON"
+    //   ][0].skill).toLowerCase()
+    // );
     setSelectedOptions(selected);
   };
 
@@ -31,13 +38,34 @@ const SelectBox = ({ options, name, onChange }) => {
   );
 };
 
-const data = Object.keys(itemDataCopy.results);
-const categories = data.map((item) => ({ value: item, label: item }));
+// console.log(
+//   itemDataCopy.results["Steel bar"].printouts[
+//     "Production JSON"
+//   ][0].skill.toUpperCase()
+// );
 
 function Search({ setResults, results, favourites, setFavourites }) {
   const [status, setStatus] = useState("idle");
   const [searchParams, setSearchParams] = useSearchParams();
   const [apiData, setApiData] = useState({});
+  const [skillFilter, setSkillFilter] = useState([]);
+
+  const data = Object.keys(itemDataCopy.results);
+  // const categories = data.map((item) => ({ value: item, label: item }));
+
+  const categories = [];
+  const filter = data.filter((item) => {
+    if (
+      skillFilter.includes(
+        itemDataCopy.results[item].printouts[
+          "Production JSON"
+        ][0].skill.toLowerCase()
+      )
+    ) {
+      categories.push({ value: item, label: item });
+    }
+  });
+  // console.log(categories);
 
   const input = searchParams.get("input");
 
@@ -45,7 +73,7 @@ function Search({ setResults, results, favourites, setFavourites }) {
     itemDataCopy.results[input]?.printouts["Production JSON"][0].mats;
 
   const handleChange = (e) => {
-    console.log("e", { input: e });
+    // console.log("e", { input: e });
     setSearchParams({ input: e });
     setResults([itemDataCopy.results[e]?.printouts["Production JSON"][0]]);
   };
@@ -55,7 +83,12 @@ function Search({ setResults, results, favourites, setFavourites }) {
   return (
     <>
       <h1>Search</h1>
+      <ToggleButtonGroupControlled
+        skillFilter={skillFilter}
+        setSkillFilter={setSkillFilter}
+      />
       <SelectBox options={categories} name="input" onChange={handleChange} />
+
       {status === "loading" ? (
         <progress />
       ) : (

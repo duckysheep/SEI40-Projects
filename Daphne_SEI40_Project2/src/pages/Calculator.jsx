@@ -46,13 +46,17 @@ function Calculator({
         </td>
         <td>
           {apiData[ele?.name]?.price !== undefined
-            ? apiData[ele?.name]?.price * inputVal
+            ? (apiData[ele?.name]?.price * inputVal).toLocaleString()
             : "Not Tradeable"}
         </td>
-        <td>{ele?.quantity * inputVal}</td>
+        <td>{(ele?.quantity * inputVal).toLocaleString()}</td>
         <td>
           {apiData[ele?.name]?.price !== undefined
-            ? apiData[ele?.name]?.price * ele?.quantity * inputVal
+            ? (
+                apiData[ele?.name]?.price *
+                ele?.quantity *
+                inputVal
+              ).toLocaleString()
             : "Not Tradeable"}
         </td>
       </tr>
@@ -100,9 +104,11 @@ function Calculator({
                         <th>
                           Price:{" "}
                           {apiData[input]?.price !== undefined
-                            ? apiData[input]?.price *
-                              inputVal *
-                              results[0].quantity
+                            ? (
+                                apiData[input]?.price *
+                                inputVal *
+                                results[0].quantity
+                              ).toLocaleString()
                             : "Not Tradeable"}
                         </th>
                       </tr>
