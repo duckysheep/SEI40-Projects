@@ -1,16 +1,10 @@
 import { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
 import { useSearchParams } from "react-router-dom";
-// import itemData from "../assets/data/itemdata";
 import itemDataCopy from "../data/itemdatacopy";
 import Calculator from "./Calculator";
 import Select from "react-select";
-import { ToggleButton } from "react-bootstrap";
 import ToggleButtonGroupControlled from "./FilterButtons";
-import skillList from "../data/skillList";
-
-// console.log(Object.keys(itemDataCopy.results));
 
 //https://codesandbox.io/s/upbeat-torvalds-kzcug?file=/src/App.js
 const SelectBox = ({ options, name, onChange }) => {
@@ -18,11 +12,7 @@ const SelectBox = ({ options, name, onChange }) => {
 
   const handleChange = (selected) => {
     onChange(selected.value);
-    // console.log(
-    //   (itemDataCopy?.results[selected.value]?.printouts[
-    //     "Production JSON"
-    //   ][0].skill).toLowerCase()
-    // );
+
     setSelectedOptions(selected);
   };
 
@@ -37,12 +27,6 @@ const SelectBox = ({ options, name, onChange }) => {
     />
   );
 };
-
-// console.log(
-//   itemDataCopy.results["Steel bar"].printouts[
-//     "Production JSON"
-//   ][0].skill.toUpperCase()
-// );
 
 function Search({
   setResults,
@@ -61,7 +45,6 @@ function Search({
   const [skillFilter, setSkillFilter] = useState([]);
 
   const data = Object.keys(itemDataCopy.results);
-  // const categories = data.map((item) => ({ value: item, label: item }));
 
   const categories = [];
   const filter = data.filter((item) => {
@@ -75,7 +58,6 @@ function Search({
       categories.push({ value: item, label: item });
     }
   });
-  // console.log(categories);
 
   setInput(searchParams.get("input"));
 
@@ -83,14 +65,11 @@ function Search({
     itemDataCopy.results[input]?.printouts["Production JSON"][0].mats;
 
   const handleChange = (e) => {
-    // console.log("e", { input: e });
     setSearchParams({ input: e });
     setResults([itemDataCopy.results[e]?.printouts["Production JSON"][0]]);
     setInputVal(1);
   };
 
-  // console.log(results[0].quantity);
-  // console.log(results[0].mats);
   return (
     <>
       <h1>Search</h1>
@@ -104,7 +83,6 @@ function Search({
         <progress />
       ) : (
         <>
-          {/* <p>{input}</p> */}
           <hr></hr>
           {results[0] === undefined ? (
             console.log("undefined results")
@@ -120,8 +98,6 @@ function Search({
               setInputVal={setInputVal}
             />
           )}
-
-          {/* <p>{results[0]}</p> */}
         </>
       )}
     </>

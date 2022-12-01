@@ -1,11 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import ToggleButton from "react-bootstrap/ToggleButton";
 import ToggleButtonGroup from "react-bootstrap/ToggleButtonGroup";
 import skillList from "../data/skillList";
 
 function ToggleButtonGroupControlled({ skillFilter, setSkillFilter }) {
-  // const [value, setValue] = useState([]);
-
   const skillFilterBtn = skillList.map((ele, i) => {
     return (
       <ToggleButton id={i} value={ele.toLowerCase()} key={ele.toLowerCase()}>

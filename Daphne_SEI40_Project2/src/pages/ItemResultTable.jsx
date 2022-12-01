@@ -1,15 +1,6 @@
-import { useEffect, useState } from "react";
 import { Accordion, Table } from "react-bootstrap";
-import { BsStar, BsStarFill } from "react-icons/bs";
 
-function ItemResultTable({
-  results,
-  input,
-  favourites,
-  apiData,
-  inputVal,
-  setInputVal,
-}) {
+function ItemResultTable({ results, input, apiData, inputVal, setInputVal }) {
   const matInfo = results[0]?.mats.map((ele) => {
     let imgSrc =
       "https://runescape.wiki/images/" + (ele?.image).replaceAll(" ", "_");
@@ -37,8 +28,6 @@ function ItemResultTable({
       </tr>
     );
   });
-
-  // console.log("results[0]?.mats", results[0]?.mats);
 
   const handleChange = (event) => {
     setInputVal(event.target.value);

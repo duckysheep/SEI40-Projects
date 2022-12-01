@@ -1,6 +1,5 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Accordion, Table } from "react-bootstrap";
-import { BsStar, BsStarFill } from "react-icons/bs";
 
 function FavTable({ favourites }) {
   const [state, setState] = useState({});

@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react";
-import { Accordion, Table } from "react-bootstrap";
+import { useEffect } from "react";
 import { BsStar, BsStarFill } from "react-icons/bs";
 import ItemResultTable from "./ItemResultTable";
 
@@ -13,7 +12,6 @@ function Calculator({
   inputVal,
   setInputVal,
 }) {
-  // const [apiData, setApiData] = useState({});
   const favCheck = [];
   favourites.map((ele) => {
     favCheck.push(ele.item.name);
@@ -38,7 +36,6 @@ function Calculator({
   }, [searchStr]);
 
   const addFav = () => {
-    // console.log(input);
     favCheck.includes(input)
       ? console.log("already added")
       : setFavourites([
@@ -63,9 +60,6 @@ function Calculator({
   return (
     <>
       <h2>Calculator</h2>
-      {/* <p>
-        Price of <b>{input}</b> : <b>{apiData[input]?.price}gp</b>
-      </p> */}
       <div>
         {input != null ? (
           <>
@@ -74,51 +68,6 @@ function Calculator({
             ) : (
               <BsStar size={30} onClick={addFav} />
             )}
-            {/* <Accordion defaultActiveKey="0">
-              <Accordion.Item eventKey="0">
-                <Accordion.Header>
-                  <Table striped bordered hover>
-                    <thead>
-                      <tr>
-                        <th>Item: {input}</th>
-                        <th>Amount made: {results[0].quantity}</th>
-                        <th>
-                          <input
-                            type="number"
-                            min="1"
-                            onChange={handleChange}
-                            value={inputVal}
-                          ></input>
-                        </th>
-                        <th>
-                          Price:{" "}
-                          {apiData[input]?.price !== undefined
-                            ? (
-                                apiData[input]?.price *
-                                inputVal *
-                                results[0].quantity
-                              ).toLocaleString()
-                            : "Not Tradeable"}
-                        </th>
-                      </tr>
-                    </thead>
-                  </Table>
-                </Accordion.Header>
-                <Accordion.Body>
-                  <Table striped bordered hover>
-                    <thead>
-                      <tr>
-                        <th>Materials</th>
-                        <th>Price</th>
-                        <th>Quantity</th>
-                        <th>Total</th>
-                      </tr>
-                    </thead>
-                    <tbody>{matInfo}</tbody>
-                  </Table>
-                </Accordion.Body>
-              </Accordion.Item>
-            </Accordion> */}
 
             <ItemResultTable
               results={results}
@@ -132,50 +81,6 @@ function Calculator({
         ) : (
           <></>
         )}
-
-        {/* {favourites.includes(input) ? (
-          <BsStarFill style={{ color: "orange" }} size={30} />
-        ) : (
-          <BsStar size={30} onClick={addFav} />
-        )}
-        {input == null ? (
-          <></>
-        ) : (
-          <Accordion defaultActiveKey="0">
-            <Accordion.Item eventKey="0">
-              <Accordion.Header>
-                <Table striped bordered hover>
-                  <thead>
-                    <tr>
-                      <th>Item: {input}</th>
-                      <th>Item: {results[0][0].name}</th>
-                      <th>Amount: 1</th>
-                      <th>
-                        Price:{" "}
-                        {apiData[input]?.price !== undefined
-                          ? apiData[input]?.price
-                          : "Not Tradeable"}
-                      </th>
-                    </tr>
-                  </thead>
-                </Table>
-              </Accordion.Header>
-              <Accordion.Body>
-                <Table striped bordered hover>
-                  <thead>
-                    <tr>
-                      <th>Materials</th>
-                      <th>Price</th>
-                      <th>Quantity</th>
-                      <th>Total</th>
-                    </tr>
-                  </thead>
-                  <tbody>{matInfo}</tbody>
-                </Table>
-              </Accordion.Body>
-            </Accordion.Item>
-          </Accordion>
-        )} */}
       </div>
     </>
   );
