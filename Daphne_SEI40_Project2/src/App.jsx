@@ -11,6 +11,9 @@ import "./App.css";
 function App() {
   const [results, setResults] = useState([]);
   const [favourites, setFavourites] = useState([]);
+  const [inputVal, setInputVal] = useState(1);
+  const [apiData, setApiData] = useState({});
+  const [input, setInput] = useState("");
 
   useEffect(() => {
     const favourites = JSON.parse(localStorage.getItem("favourites"));
@@ -33,13 +36,28 @@ function App() {
                   setResults={setResults}
                   setFavourites={setFavourites}
                   favourites={favourites}
+                  inputVal={inputVal}
+                  setInputVal={setInputVal}
+                  input={input}
+                  setInput={setInput}
+                  apiData={apiData}
+                  setApiData={setApiData}
                 />
               }
             />
             <Route
               path="favs"
               element={
-                <Favs favourites={favourites} setFavourites={setFavourites} />
+                <Favs
+                  results={results}
+                  input={input}
+                  favourites={favourites}
+                  setFavourites={setFavourites}
+                  apiData={apiData}
+                  setApiData={setApiData}
+                  inputVal={inputVal}
+                  setInputVal={setInputVal}
+                />
               }
             />
           </Route>

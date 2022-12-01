@@ -10,7 +10,7 @@ function ItemResultTable({
   inputVal,
   setInputVal,
 }) {
-  const matInfo = results[0].mats.map((ele) => {
+  const matInfo = results[0]?.mats.map((ele) => {
     let imgSrc =
       "https://runescape.wiki/images/" + (ele?.image).replaceAll(" ", "_");
 
@@ -38,6 +38,8 @@ function ItemResultTable({
     );
   });
 
+  // console.log("results[0]?.mats", results[0]?.mats);
+
   const handleChange = (event) => {
     setInputVal(event.target.value);
   };
@@ -54,7 +56,7 @@ function ItemResultTable({
                     <thead>
                       <tr>
                         <th>Item: {input}</th>
-                        <th>Amount made: {results[0].quantity}</th>
+                        <th>Amount made: {results[0]?.quantity}</th>
                         <th>
                           <input
                             type="number"

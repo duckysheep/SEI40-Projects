@@ -1,19 +1,28 @@
 import { useEffect, useState } from "react";
 import { Accordion, Button, Table } from "react-bootstrap";
+import FavTable from "./FavTable";
 
-function Favs({ favourites, setFavourites }) {
+function Favs({
+  favourites,
+  setFavourites,
+  results,
+  input,
+  apiData,
+  inputVal,
+  setInputVal,
+}) {
   const goTo = () => {
     console.log("go to");
   };
 
-  const favList = favourites.map((ele) => {
-    return (
-      <div key={ele}>
-        <button onClick={goTo}>{ele}</button>
-        <br></br>
-      </div>
-    );
-  });
+  // const favList = favourites.map((ele) => {
+  //   return (
+  //     <div key={ele}>
+  //       <button onClick={goTo}>{ele}</button>
+  //       <br></br>
+  //     </div>
+  //   );
+  // });
 
   return (
     <>
@@ -27,7 +36,8 @@ function Favs({ favourites, setFavourites }) {
         Clear All
       </Button>
       <hr></hr>
-      {favList}
+      <FavTable favourites={favourites} />
+      {/* {favList} */}
     </>
   );
 }

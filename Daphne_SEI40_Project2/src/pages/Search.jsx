@@ -44,12 +44,21 @@ const SelectBox = ({ options, name, onChange }) => {
 //   ][0].skill.toUpperCase()
 // );
 
-function Search({ setResults, results, favourites, setFavourites }) {
+function Search({
+  setResults,
+  results,
+  favourites,
+  setFavourites,
+  inputVal,
+  setInputVal,
+  input,
+  setInput,
+  apiData,
+  setApiData,
+}) {
   const [status, setStatus] = useState("idle");
   const [searchParams, setSearchParams] = useSearchParams();
-  const [apiData, setApiData] = useState({});
   const [skillFilter, setSkillFilter] = useState([]);
-  const [inputVal, setInputVal] = useState(1);
 
   const data = Object.keys(itemDataCopy.results);
   // const categories = data.map((item) => ({ value: item, label: item }));
@@ -68,13 +77,13 @@ function Search({ setResults, results, favourites, setFavourites }) {
   });
   // console.log(categories);
 
-  const input = searchParams.get("input");
+  setInput(searchParams.get("input"));
 
   const matData =
     itemDataCopy.results[input]?.printouts["Production JSON"][0].mats;
 
   const handleChange = (e) => {
-    console.log("e", { input: e });
+    // console.log("e", { input: e });
     setSearchParams({ input: e });
     setResults([itemDataCopy.results[e]?.printouts["Production JSON"][0]]);
     setInputVal(1);

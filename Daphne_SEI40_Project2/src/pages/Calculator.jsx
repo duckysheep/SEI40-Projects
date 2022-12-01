@@ -14,6 +14,10 @@ function Calculator({
   setInputVal,
 }) {
   // const [apiData, setApiData] = useState({});
+  const favCheck = [];
+  favourites.map((ele) => {
+    favCheck.push(ele.item.name);
+  });
 
   const resultsName = results[0].mats.map((ele) => ele.name);
   resultsName.push(input);
@@ -34,10 +38,22 @@ function Calculator({
   }, [searchStr]);
 
   const addFav = () => {
-    console.log(input);
-    favourites.includes(input)
+    // console.log(input);
+    favCheck.includes(input)
       ? console.log("already added")
-      : setFavourites([...favourites, input]);
+      : setFavourites([
+          ...favourites,
+          {
+            item: {
+              name: input,
+              qtyProduced: results[0]?.quantity,
+              qtyRequired: inputVal,
+              price: apiData[input]?.price,
+            },
+            mats: results[0]?.mats,
+            apiData: apiData,
+          },
+        ]);
   };
 
   useEffect(() => {
@@ -53,7 +69,7 @@ function Calculator({
       <div>
         {input != null ? (
           <>
-            {favourites.includes(input) ? (
+            {favCheck.includes(input) ? (
               <BsStarFill style={{ color: "orange" }} size={30} />
             ) : (
               <BsStar size={30} onClick={addFav} />
@@ -108,9 +124,7 @@ function Calculator({
               results={results}
               input={input}
               favourites={favourites}
-              setFavourites={setFavourites}
               apiData={apiData}
-              setApiData={setApiData}
               inputVal={inputVal}
               setInputVal={setInputVal}
             />
