@@ -49,6 +49,7 @@ function Search({ setResults, results, favourites, setFavourites }) {
   const [searchParams, setSearchParams] = useSearchParams();
   const [apiData, setApiData] = useState({});
   const [skillFilter, setSkillFilter] = useState([]);
+  const [inputVal, setInputVal] = useState(1);
 
   const data = Object.keys(itemDataCopy.results);
   // const categories = data.map((item) => ({ value: item, label: item }));
@@ -73,9 +74,10 @@ function Search({ setResults, results, favourites, setFavourites }) {
     itemDataCopy.results[input]?.printouts["Production JSON"][0].mats;
 
   const handleChange = (e) => {
-    // console.log("e", { input: e });
+    console.log("e", { input: e });
     setSearchParams({ input: e });
     setResults([itemDataCopy.results[e]?.printouts["Production JSON"][0]]);
+    setInputVal(1);
   };
 
   // console.log(results[0].quantity);
@@ -105,6 +107,8 @@ function Search({ setResults, results, favourites, setFavourites }) {
               setFavourites={setFavourites}
               apiData={apiData}
               setApiData={setApiData}
+              inputVal={inputVal}
+              setInputVal={setInputVal}
             />
           )}
 

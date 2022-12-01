@@ -1,6 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Layout from "./layouts/Layout";
 import Home from "./pages/Home";
 import Calculator from "./pages/Calculator";
@@ -11,6 +11,13 @@ import "./App.css";
 function App() {
   const [results, setResults] = useState([]);
   const [favourites, setFavourites] = useState([]);
+
+  useEffect(() => {
+    const favourites = JSON.parse(localStorage.getItem("favourites"));
+    if (favourites) {
+      setFavourites(favourites);
+    }
+  }, []);
 
   return (
     <>

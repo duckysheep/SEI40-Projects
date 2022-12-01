@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Accordion, Table } from "react-bootstrap";
 import { BsStar, BsStarFill } from "react-icons/bs";
+import ItemResultTable from "./ItemResultTable";
 
 function Calculator({
   results,
@@ -9,9 +10,10 @@ function Calculator({
   setFavourites,
   apiData,
   setApiData,
+  inputVal,
+  setInputVal,
 }) {
   // const [apiData, setApiData] = useState({});
-  const [inputVal, setInputVal] = useState(1);
 
   const resultsName = results[0].mats.map((ele) => ele.name);
   resultsName.push(input);
@@ -31,45 +33,16 @@ function Calculator({
     makeApiCall();
   }, [searchStr]);
 
-  const handleChange = (event) => {
-    setInputVal(event.target.value);
-  };
-
-  const matInfo = results[0].mats.map((ele) => {
-    let imgSrc =
-      "https://runescape.wiki/images/" + (ele?.image).replaceAll(" ", "_");
-
-    return (
-      <tr key={ele.name}>
-        <td>
-          <img src={imgSrc}></img> {ele?.name}
-        </td>
-        <td>
-          {apiData[ele?.name]?.price !== undefined
-            ? (apiData[ele?.name]?.price * inputVal).toLocaleString()
-            : "Not Tradeable"}
-        </td>
-        <td>{(ele?.quantity * inputVal).toLocaleString()}</td>
-        <td>
-          {apiData[ele?.name]?.price !== undefined
-            ? (
-                apiData[ele?.name]?.price *
-                ele?.quantity *
-                inputVal
-              ).toLocaleString()
-            : "Not Tradeable"}
-        </td>
-      </tr>
-    );
-  });
-
   const addFav = () => {
     console.log(input);
     favourites.includes(input)
       ? console.log("already added")
       : setFavourites([...favourites, input]);
   };
-  localStorage.setItem("favourites", JSON.stringify(favourites));
+
+  useEffect(() => {
+    localStorage.setItem("favourites", JSON.stringify(favourites));
+  }, [favourites]);
 
   return (
     <>
@@ -85,7 +58,7 @@ function Calculator({
             ) : (
               <BsStar size={30} onClick={addFav} />
             )}
-            <Accordion defaultActiveKey="0">
+            {/* <Accordion defaultActiveKey="0">
               <Accordion.Item eventKey="0">
                 <Accordion.Header>
                   <Table striped bordered hover>
@@ -129,7 +102,18 @@ function Calculator({
                   </Table>
                 </Accordion.Body>
               </Accordion.Item>
-            </Accordion>
+            </Accordion> */}
+
+            <ItemResultTable
+              results={results}
+              input={input}
+              favourites={favourites}
+              setFavourites={setFavourites}
+              apiData={apiData}
+              setApiData={setApiData}
+              inputVal={inputVal}
+              setInputVal={setInputVal}
+            />
           </>
         ) : (
           <></>
