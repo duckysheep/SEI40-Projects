@@ -1,5 +1,5 @@
 import { Button } from "react-bootstrap";
-import FavTable from "./FavTable";
+import FavTable from "../components/FavTable";
 
 function Favs({ favourites, setFavourites }) {
   return (

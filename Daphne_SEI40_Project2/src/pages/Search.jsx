@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import { useSearchParams } from "react-router-dom";
 import itemDataCopy from "../data/itemdatacopy";
-import Calculator from "./Calculator";
+import Calculator from "../components/Calculator";
 import Select from "react-select";
-import ToggleButtonGroupControlled from "./FilterButtons";
+import ToggleButtonGroupControlled from "../components/FilterButtons";
 
 //https://codesandbox.io/s/upbeat-torvalds-kzcug?file=/src/App.js
 const SelectBox = ({ options, name, onChange }) => {
