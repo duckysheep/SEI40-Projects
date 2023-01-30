@@ -48,6 +48,10 @@ A game crafting calculator which lets the user search for, and/or filter recipes
 
 [Wireframe](https://www.figma.com/file/CHeBo04rokht9vZRIWirW4/SEI-Proj2?node-id=0%3A1&t=uc4cnH7TcY2FjSMv-0) reference to help provide a reference
 
+## Deployment
+
+Interactive [Website](https://sei-40-projects.vercel.app/)
+
 ## Future Development
 
 - Code refactoring
